@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Bakalauras.Pages
+namespace Bakalauras.Pages.Testai
 {
-    public class CreateTaskModel : PageModel
+    public class MyTestsListModel : PageModel
     {
         public void OnGet()
         {
