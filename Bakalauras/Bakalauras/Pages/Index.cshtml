@@ -4,7 +4,143 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    .collapsible-link::before {
+        content: '';
+        width: 14px;
+        height: 2px;
+        background: #333;
+        position: absolute;
+        top: calc(50% - 1px);
+        right: 1rem;
+        display: block;
+        transition: all 0.3s;
+    }
+
+    .collapsible-link::after {
+        content: '';
+        width: 2px;
+        height: 14px;
+        background: #333;
+        position: absolute;
+        top: calc(50% - 7px);
+        right: calc(1rem + 6px);
+        display: block;
+        transition: all 0.3s;
+    }
+
+    .collapsible-link[aria-expanded='true']::after {
+        transform: rotate(90deg) translateX(-1px);
+    }
+
+    .collapsible-link[aria-expanded='true']::before {
+        transform: rotate(180deg);
+    }
+
+    .block {
+        display: block;
+        width: 100%;
+        border: solid;
+        border-color: white;
+        border-width: 1px;
+        background-color: #3e363f;
+        padding: 14px 28px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: left;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9 mx-auto">
+            <!-- Accordion -->
+            <div id="accordionExample" class="accordion shadow">
+
+                <!-- Accordion item 1 -->
+                <div class="card">
+                    <div id="headingOne" class="card-header bg-white shadow-sm border-0">
+                        <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="d-block position-relative text-dark text-uppercase collapsible-link py-2">Realieji skaičiai ir skaičiavimai</a></h6>
+                    </div>
+                    <div id="collapseOne" aria-labelledby="headingOne" data-parent="#accordionExample" class="collapse show">
+                        <a class="block text-light nav-link" asp-page="/Mokytis/ThemeMenu">Realieji skaičiai</a>
+                        <a class="block text-light nav-link" asp-page="/Index">Procentai</a>
+                        <a class="block text-light nav-link" asp-page="/Index">Aritmetinė progresija</a>
+                        <a class="block text-light nav-link" asp-page="/Index">Geometrinė progresija</a>
+                    </div>
+                </div>
+
+                <!-- Accordion item 2 -->
+                <div class="card">
+                    <div id="headingTwo" class="card-header bg-white shadow-sm border-0">
+                        <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" class="d-block position-relative collapsed text-dark text-uppercase collapsible-link py-2">Skaitiniai ir raidiniai reiškiniai</a></h6>
+                    </div>
+                    <div id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordionExample" class="collapse">
+                        <a class="block text-light nav-link" asp-page="/Index">Racionalieji reiškiniai</a>
+                        <a class="block text-light nav-link" asp-page="/Index">Iracionalieji reiškiniai</a>
+                        <a class="block text-light nav-link" asp-page="/Index">Logaritminiai reiškiniai</a>
+                    </div>
+                </div>
+
+                <!-- Accordion item 3 -->
+                <div class="card">
+                    <div id="headingThree" class="card-header bg-white shadow-sm border-0">
+                        <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" class="d-block position-relative collapsed text-dark text-uppercase collapsible-link py-2">Lygtys, nelygybės ir jų sistemos</a></h6>
+                    </div>
+                    <div id="collapseThree" aria-labelledby="headingThree" data-parent="#accordionExample" class="collapse">
+                        <a class="block text-light nav-link" asp-page="/Index">Kvadratinės lygtys</a>
+                        <a class="block text-light nav-link" asp-page="/Index">Racionalios lygtys</a>
+                        <a class="block text-light nav-link" asp-page="/Index">Iracionalios lygtys</a>
+                        <a class="block text-light nav-link" asp-page="/Index">Rodiklinės lygtys</a>
+                        <a class="block text-light nav-link" asp-page="/Index">Logaritminės lygtys</a>
+                        <a class="block text-light nav-link" asp-page="/Index">Rodiklinės neligybės</a>
+                        <a class="block text-light nav-link" asp-page="/Index">Logaritminės neligybės</a>
+                    </div>
+                </div>
+
+                <!-- Accordion item 4 -->
+                <div class="card">
+                    <div id="headingFour" class="card-header bg-white shadow-sm border-0">
+                        <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" class="d-block position-relative collapsed text-dark text-uppercase collapsible-link py-2">Trigonometrija</a></h6>
+                    </div>
+                    <div id="collapseFour" aria-labelledby="headingFour" data-parent="#accordionExample" class="collapse">
+                        <a class="block text-light nav-link" asp-page="/Index">Trigonometriniai reiškiniai</a>
+                    </div>
+                </div>
+
+                <!-- Accordion item 5 -->
+                <div class="card">
+                    <div id="headingFive" class="card-header bg-white shadow-sm border-0">
+                        <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive" class="d-block position-relative collapsed text-dark text-uppercase collapsible-link py-2">Diferencialinis skaičiavimas</a></h6>
+                    </div>
+                    <div id="collapseFive" aria-labelledby="headingFive" data-parent="#accordionExample" class="collapse">
+                        <a class="block text-light nav-link" asp-page="/Index">Išvestinė</a>
+                    </div>
+                </div>
+
+                <!-- Accordion item 6 -->
+                <div class="card">
+                    <div id="headingSix" class="card-header bg-white shadow-sm border-0">
+                        <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix" class="d-block position-relative collapsed text-dark text-uppercase collapsible-link py-2">Kombinatorika ir tikimybių teorija</a></h6>
+                    </div>
+                    <div id="collapseSix" aria-labelledby="headingSix" data-parent="#accordionExample" class="collapse">
+                        <a class="block text-light nav-link" asp-page="/Index">Kombinatorikos formulių taikymas</a>
+                        <a class="block text-light nav-link" asp-page="/Index">Tikimybės apibrėžimas</a>
+                    </div>
+                </div>
+
+                <!-- Accordion item 7 -->
+                <div class="card">
+                    <div id="headingSeven" class="card-header bg-white shadow-sm border-0">
+                        <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" class="d-block position-relative collapsed text-dark text-uppercase collapsible-link py-2">Atsitiktinis dydis. Statistika</a></h6>
+                    </div>
+                    <div id="collapseSeven" aria-labelledby="headingSeven" data-parent="#accordionExample" class="collapse">
+                        <a class="block text-light nav-link" asp-page="/Index">Statistikos pradmenys</a>
+                        <a class="block text-light nav-link" asp-page="/Index">Atsitiktinis dydis</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>

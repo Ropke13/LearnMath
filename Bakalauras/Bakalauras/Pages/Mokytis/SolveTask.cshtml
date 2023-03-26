@@ -1,0 +1,68 @@
+﻿@page
+@model Bakalauras.Pages.Mokytis.SolveTaskModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<style>
+    .card-title {
+        text-align: center;
+    }
+
+    #equation {
+        font-size: 18pt;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Mokausi Spresti kvadratines lygtis</h4>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                    </div>
+                    <hr />
+
+                    <p>Su kuriomis \(a\) reikšmėmis lygtis \((a+4)x^2+6x-1=0\) turi vienintelį sprendinį?</p>
+
+                    <hr />
+                    <div class="col-md-5">
+                        <div>
+                            <h5 class="font-size-14 mb-4">Atsakymai</h5>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="formRadios"
+                                       id="formRadios1" checked>
+                                <label class="form-check-label" for="formRadios1">
+                                    12
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="formRadios"
+                                       id="formRadios2" checked>
+                                <label class="form-check-label" for="formRadios2">
+                                    -4
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="formRadios"
+                                       id="formRadios3" checked>
+                                <label class="form-check-label" for="formRadios3">
+                                    -13
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="formRadios"
+                                       id="formRadios4" checked>
+                                <label class="form-check-label" for="formRadios4">
+                                    13 ir 4
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

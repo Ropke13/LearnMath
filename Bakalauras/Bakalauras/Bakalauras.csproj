@@ -15,4 +15,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.24" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Uzdaviniai\" />
+    <Folder Include="Pages\Testai\" />
+  </ItemGroup>
+
 </Project>
