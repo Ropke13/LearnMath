@@ -1,13 +1,29 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Bakalauras.Data.Migrations
+namespace Bakalauras.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class updateAPIs : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "_Task",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TaskString = table.Column<string>(nullable: true),
+                    Answer1 = table.Column<string>(nullable: true),
+                    Answer2 = table.Column<string>(nullable: true),
+                    Answer3 = table.Column<string>(nullable: true),
+                    Answer4 = table.Column<string>(nullable: true),
+                    Explaining = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK__Task", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -48,11 +64,36 @@ namespace Bakalauras.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "API_Pods",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    ImgUrl = table.Column<string>(nullable: true),
+                    Alt = table.Column<string>(nullable: true),
+                    ImgWidth = table.Column<string>(nullable: true),
+                    ImgHeight = table.Column<string>(nullable: true),
+                    IsSaved = table.Column<bool>(nullable: false),
+                    ImgName = table.Column<string>(nullable: true),
+                    fk__Task = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_API_Pods", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_API_Pods__Task_fk__Task",
+                        column: x => x.fk__Task,
+                        principalTable: "_Task",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -73,7 +114,7 @@ namespace Bakalauras.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -154,6 +195,11 @@ namespace Bakalauras.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_API_Pods_fk__Task",
+                table: "API_Pods",
+                column: "fk__Task");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -196,6 +242,9 @@ namespace Bakalauras.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "API_Pods");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -209,6 +258,9 @@ namespace Bakalauras.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "_Task");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

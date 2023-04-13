@@ -20,8 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Folder Include="Data\Migrations\" />
     <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\savedImages_API\" />
   </ItemGroup>
 
 </Project>

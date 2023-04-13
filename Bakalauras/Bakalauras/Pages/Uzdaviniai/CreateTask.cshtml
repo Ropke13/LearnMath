@@ -16,45 +16,162 @@
         cursor: pointer;
         /* ... */
     }
+
+    body .modal-dialog { /* Width */
+        max-width: 100%;
+        width: auto !important;
+        display: inline-block;
+    }
+
+    .modal {
+        z-index: -1;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-open .modal {
+        z-index: 1050;
+    }
 </style>
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12 mx-auto">
-            <div class="card" style="margin-bottom: 20px;">
-                <div id="display" style="margin-bottom: 20px; margin-top: 20px;"></div>
-            </div>
-            <div class="card">
-                <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Uždavinio rašyklė</label>
-                    <textarea class="form-control" id="TaskCreate" rows="3"></textarea>
 
-                    <div class="row" style="margin-top: 15px;">
-                        <button id="eqStart" style="margin-left: 20px; margin-right: 10px;">Start</button>
-                        
-                        <button id="frac" style="margin-left: 20px; margin-right: 10px;">
-                            <img src="/images/stackedFraction.png" style="width:2em; height:2em;" alt="Button Image">
-                        </button>
+<form method="post">
+    <div class="container">
+        <input type="hidden" id="Input" name="Input" asp-for="@Model.Input" />
+        @Html.HiddenFor(f => f.plainText)
+        <div class="row">
+            <div class="col-lg-12 mx-auto">
+                <div class="card" style="margin-bottom: 20px;">
+                    <div id="display" style="margin-bottom: 20px; margin-top: 20px; font-size: 32px;"></div>
+                </div>
+                <div class="card" style="margin-bottom: 20px;">
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Atsakymų rašyklė</label>
+                        <textarea class="form-control" id="TaskCreate" rows="3">\( \)</textarea>
 
-                        <button id="sqrt" style="margin-left: 20px; margin-right: 10px;">
-                            <img src="/images/squareRoot.png" alt="Button Image">
-                        </button>
+                        <div class="row" style="margin-top: 15px;">
+                            <button type="button" id="eqStart" style="margin-left: 20px; margin-right: 10px;">Iterpt</button>
+
+                            <button type="button" id="frac" style="margin-left: 20px; margin-right: 10px;">
+                                <img src="/images/stackedFraction.png" style="width:2em; height:2em;" alt="Button Image">
+                            </button>
+
+                            <button type="button" id="sqrt" style="margin-left: 20px; margin-right: 10px;">
+                                <img src="/images/squareRoot.png" alt="Button Image">
+                            </button>
+                        </div>
                     </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 20px;">
+                    <button asp-page-handler="GetAPIResults" asp-route-id="" class="btn btn-success btn-sm text-white">Gauti WolframAlpha Duomenis</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
+                        Peržiūra
+                    </button>
+                </div>
+
+                <div class="card" style="margin-bottom: 20px;">
+                    <div class="form-group">
+                        <label for="exampleAnswer1">Atsakymas - 1</label>
+                        <input asp-for="_Task.Answer1" type="text" class="form-control" id="exampleAnswer1" aria-describedby="emailHelp">
+                        <small id="emailHelp" class="form-text text-muted">Šis atsakymas turi būti užrašytas kaip teisingas</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleAnswer2">Atsakymas - 2</label>
+                        <input asp-for="_Task.Answer2" type="text" class="form-control" id="exampleAnswer2">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleAnswer3">Atsakymas - 3</label>
+                        <input asp-for="_Task.Answer3" type="text" class="form-control" id="exampleAnswer3">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleAnswer4">Atsakymas - 4</label>
+                        <input asp-for="_Task.Answer4" type="text" class="form-control" id="exampleAnswer4">
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 20px;">
+                    <div class="form-group">
+                        <label for="Explaining">Atsakius į klausimą neteisingai būtu rodomas šis paaiškinimas:</label>
+                        <textarea asp-for="_Task.Explaining" class="form-control" id="Explaining" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 20px;">
+                    <button asp-page-handler="Create" class="btn btn-success btn-sm text-white">Sukurti Uždavinį</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Wolfram Aplha API</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if (Model.podsItems != null && Model.podsItems.Count() > 0)
+                    {
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.podsItems.Count(); i++)
+                                {
+                                    <tr>
+                                        <th>@Html.DisplayFor(f => f.podsItems[i].Title)</th>
+                                        <td scope="row">
+                                            <div style="width: @Model.podsItems[i].ImgWidth; height: @Model.podsItems[i].ImgHeight;"><img class="card-img-top" src="@Model.podsItems[i].ImgUrl" alt="@Model.podsItems[i].Alt"></div>
+                                        </td>
+                                        @Html.HiddenFor(f => f.podsItems[i].IsSaved)
+                                        <td>Prideti @Html.CheckBoxFor(f => f.podsItems[i].IsSaved)</td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3"><hr /></th>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 <script>
     $(document).ready(function () {
+        var gg = $('#plainText').val();
+        $('#TaskCreate').val(gg);
+        if (gg.length > 1) {
+            DisplayTask();
+        }
         function DisplayTask() {
             const text = $('#TaskCreate').val();
-            const katexRegex = /\\\((.*?)\\\)/g;
+            const katexRegex = /\\\((.*?)\\\)/;
 
             const renderedText = text.replace(katexRegex, (match, equation) => {
                 return katex.renderToString(equation);
             });
+
+            const input = text.match(katexRegex);
+
+            $('#Input').val(input[1]);
+            $('#plainText').val(text);
             $('#display').html(renderedText);
         }
 
@@ -86,7 +203,7 @@
 
         $('#sqrt').click(function () {
             var textarea = $('#TaskCreate');
-            var text = '\\sqrt{A}';
+            var text = '\\sqrt{C}';
             var startPos = textarea[0].selectionStart;
             var endPos = textarea[0].selectionEnd;
             var value = textarea.val();

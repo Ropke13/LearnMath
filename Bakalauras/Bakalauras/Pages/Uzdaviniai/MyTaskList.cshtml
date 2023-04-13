@@ -32,24 +32,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td><p class="tttt"><span>Išspreskite lygti: \(y = \frac{a}{b} + c^2 + d\)</span></p></td>
-                            <td><a class="btn btn-success btn-lg te" style="margin-bottom: 15px; margin-left: 15px; margin-right: 15px;" asp-page="/Mokytis/SolveTask">Redaguoti </a></td>
-                            <td><a class="btn btn-danger btn-lg te" style="margin-bottom: 15px;" asp-page="/Mokytis/SolveTask">Pašalinti </a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td><p class="tttt"><span>Išspreskite integrala: Integral \(\int_{a}^{b} x^2 \,dx\) inside text</span></p></td>
-                            <td><a class="btn btn-success btn-lg te" style="margin-bottom: 15px; margin-left: 15px; margin-right: 15px;" asp-page="/Mokytis/SolveTask">Redaguoti </a></td>
-                            <td><a class="btn btn-danger btn-lg te" style="margin-bottom: 15px;" asp-page="/Mokytis/SolveTask">Pašalinti </a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td style="width: 900px"><p class="tttt"><span>Išspreskite lygti: \(y = \frac{a}{b} + c^2 + d\)</span></p></td>
-                            <td><a class="btn btn-success btn-lg te" style="margin-bottom: 15px; margin-left: 15px; margin-right: 15px;" asp-page="/Mokytis/SolveTask">Redaguoti </a></td>
-                            <td><a class="btn btn-danger btn-lg te" style="margin-bottom: 15px;" asp-page="/Mokytis/SolveTask">Pašalinti </a></td>
-                        </tr>
+                        @{int i = 1; }
+                        @foreach (var item in Model._Task)
+                        {
+                            <tr>
+                                <th scope="row">@i</th>
+                                <td><p class="tttt"><span>@Html.DisplayFor(f => item.TaskString)</span></p></td>
+                                <td><a class="btn btn-success btn-lg te" style="margin-bottom: 15px; margin-left: 15px; margin-right: 15px;" asp-page="/Mokytis/SolveTask">Redaguoti </a></td>
+                                <td><a class="btn btn-danger btn-lg te" style="margin-bottom: 15px;" asp-page="/Mokytis/SolveTask">Pašalinti </a></td>
+                            </tr>
+                            i++;
+                        }
                     </tbody>
                 </table>
             </div>
