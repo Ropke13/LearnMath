@@ -2,3 +2,52 @@
 @model Bakalauras.Pages.Testai.TestStartModel
 @{
 }
+<div class="text-center">
+    <form method="post">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mx-auto">
+                    <div class="card">
+                        @if (Model.TestC.Count() > 0)
+                        {
+
+                        }
+                        else
+                        {
+                            <input type="hidden" id="From" name="From" asp-for="@Model.Test.From" />
+                            <input type="hidden" id="To" name="To" asp-for="@Model.Test.To" />
+
+                            <div class="form-group">
+                                <h2>Testo 1 bandymas.</h2>
+                                <hr />
+                                <label>Viso klausimų: @Model.Tasks.Count()</label><br />
+                                <label>Testui skirtas laikas: @Model.Test.Time minučių</label><br />
+                                <label>Testas atidaromas: @Model.Test.From</label><br />
+                                <label>Testas uždaromas: @Model.Test.To</label>
+                            </div>
+                            <div class="form-group">
+                                <button asp-route-ID="@Model.Test.Id" asp-page-handler="Start" id="start" class="btn btn-info btn-lg te">Pradėti</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        debugger;
+        $('#start').prop('disabled', true); // disable button by default
+
+        var inputDate = new Date($('#From').val());
+        var endDate = new Date($('#To').val());
+        var currentDate = new Date(); 
+        if (inputDate < currentDate && currentDate < endDate) { 
+            $('#start').prop('disabled', false); 
+        } else {d
+            $('#start').prop('disabled', true);
+        }
+    });
+</script>

@@ -20,5 +20,6 @@ namespace Bakalauras.Data
         public DbSet<Test> Test { get; set; }
         public DbSet<TestComplete> TestComplete { get; set; }
         public DbSet<TestTasks> TestTasks { get; set; }
+        public DbSet<TestCompletedTask> TestCompletedTask { get; set; }
     }
 }

@@ -4,14 +4,16 @@ using Bakalauras.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bakalauras.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230423202633_TestComplete_Added_Stuf")]
+    partial class TestComplete_Added_Stuf
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,16 +96,16 @@ namespace Bakalauras.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("Finished")
+                    b.Property<DateTime>("Finished")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Started")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("TotalCorrectAnswers")
+                    b.Property<int>("TotalCorrectAnswers")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TotalTasks")
+                    b.Property<int>("TotalTasks")
                         .HasColumnType("int");
 
                     b.Property<Guid?>("fk__Test")
