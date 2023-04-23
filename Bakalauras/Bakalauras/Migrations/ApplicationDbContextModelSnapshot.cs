@@ -40,20 +40,96 @@ namespace Bakalauras.Migrations
                     b.Property<string>("ImgWidth")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsSaved")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("fk__Task")
+                    b.Property<Guid?>("fk__Task")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("imgId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("fk__Task");
 
                     b.ToTable("API_Pods");
+                });
+
+            modelBuilder.Entity("Bakalauras.Models.Test", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("From")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TestCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TestName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Time")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("To")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Test");
+                });
+
+            modelBuilder.Entity("Bakalauras.Models.TestComplete", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Finished")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Started")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TotalCorrectAnswers")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalTasks")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TestComplete");
+                });
+
+            modelBuilder.Entity("Bakalauras.Models.TestTasks", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("fk__Task")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("fk__Test")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("fk__Task");
+
+                    b.HasIndex("fk__Test");
+
+                    b.ToTable("TestTasks");
                 });
 
             modelBuilder.Entity("Bakalauras.Models._Task", b =>
@@ -77,7 +153,13 @@ namespace Bakalauras.Migrations
                     b.Property<string>("Explaining")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Level")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TaskString")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -289,9 +371,18 @@ namespace Bakalauras.Migrations
                 {
                     b.HasOne("Bakalauras.Models._Task", "_Task")
                         .WithMany()
-                        .HasForeignKey("fk__Task")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("fk__Task");
+                });
+
+            modelBuilder.Entity("Bakalauras.Models.TestTasks", b =>
+                {
+                    b.HasOne("Bakalauras.Models._Task", "_Task")
+                        .WithMany()
+                        .HasForeignKey("fk__Task");
+
+                    b.HasOne("Bakalauras.Models.Test", "Test")
+                        .WithMany()
+                        .HasForeignKey("fk__Test");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

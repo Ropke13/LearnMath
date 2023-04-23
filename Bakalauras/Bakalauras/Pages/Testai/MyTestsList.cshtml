@@ -2,3 +2,64 @@
 @model Bakalauras.Pages.Testai.MyTestsListModel
 @{
 }
+
+<style>
+    .btn {
+        font-size: 1.0em;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    .tttt {
+        margin-top: 15px;
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 mx-auto">
+            <h1 style="text-align:center;">Mano Testai</h1>
+
+            <div class="card">
+                <a class="btn btn-info btn-lg te" style="margin-top: 15px;margin-bottom: 15px; margin-left: 15px; margin-right: 15px;" asp-page="/Testai/CreateTest">Sukurti naują testą </a>
+                @if (Model.Test.Count() > 0)
+                {
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Pavadinimas</th>
+                                <th scope="col">Galioja nuo</th>
+                                <th scope="col">Galioja iki</th>
+                                <th scope="col">Testo kodas</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Test)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(f => item.TestName)</td>
+                                    <td scope="row">@Html.DisplayFor(f => item.From)</td>
+                                    <td scope="row">@Html.DisplayFor(f => item.To)</td>
+                                    <td scope="row">@Html.DisplayFor(f => item.TestCode)</td>
+                                    <td><a class="btn btn-info btn-lg te" style="margin-bottom: 15px;" asp-page="/Mokytis/SolveTask" asp-route-ID="@item.Id">Testo rezultatai</a></td>
+                                    <td><a class="btn btn-success btn-lg te" style="margin-bottom: 5px;" asp-page="/Mokytis/SolveTask" asp-route-ID="@item.Id">Redaguoti</a></td>
+                                    <td><a class="btn btn-danger btn-lg te" style="margin-bottom: 15px;" asp-page="/Mokytis/SolveTask" asp-route-ID="@item.Id">Pašalinti </a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <label>Nėra sukurtų testų</label>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -17,12 +17,12 @@ namespace Bakalauras.Models
         public string Alt { get; set; }
         public string ImgWidth {get; set;}
         public string ImgHeight { get; set; }
-        public bool IsSaved { get; set; }
+        public bool IsActive { get; set; }
         public string ImgName { get; set; }
 
         [ForeignKey("fk__Task")]
         public _Task _Task { get; set; }
-        public Guid fk__Task { get; set; }
+        public Guid? fk__Task { get; set; }
 
     }
 }

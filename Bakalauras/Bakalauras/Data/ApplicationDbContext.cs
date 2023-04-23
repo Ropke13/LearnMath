@@ -17,5 +17,8 @@ namespace Bakalauras.Data
 
         public DbSet<_Task> _Task { get; set; }
         public DbSet<API_Pods> API_Pods { get; set; }
+        public DbSet<Test> Test { get; set; }
+        public DbSet<TestComplete> TestComplete { get; set; }
+        public DbSet<TestTasks> TestTasks { get; set; }
     }
 }

@@ -22,6 +22,8 @@
 
             <div class="card">
                 <a class="btn btn-info btn-lg te" style="margin-top: 15px;margin-bottom: 15px; margin-left: 15px; margin-right: 15px;" asp-page="/Uzdaviniai/CreateTask">Sukurti nauja uždavinį </a>
+                @if (Model._Task.Count() > 0)
+                {
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
@@ -45,6 +47,11 @@
                         }
                     </tbody>
                 </table>
+                            }
+                            else
+                            {
+                                <label>Neturite uždavinių</label>
+                            }
             </div>
 
         </div>

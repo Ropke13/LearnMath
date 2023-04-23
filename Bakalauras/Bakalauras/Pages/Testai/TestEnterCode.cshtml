@@ -1,0 +1,28 @@
+﻿@page
+@model Bakalauras.Pages.Testai.TestEnterCodeModel
+@{
+}
+<div class="text-center">
+    <form method="post">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mx-auto">
+                    <h1 style="text-align:center;">Prisijungti prie testo</h1>
+                    <div class="card">
+                        <div class="form-group">
+                            <label for="Test-Code"><b>Kodas</b></label><br />
+                            <input asp-for="Code" type="text" placeholder="Iveskite Testo Kodą" required><br><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="psw"><b>Slaptažodis</b></label><br />
+                            <input asp-for="Pass" type="password" placeholder="Iveskite Testo Slaptažodį" required>
+                        </div>
+                        <div class="form-group">
+                            <button asp-page-handler="Enter" class="btn btn-info btn-lg te" style="margin-top: 15px;margin-bottom: 15px; margin-left: 15px; margin-right: 15px;">Jungtis</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

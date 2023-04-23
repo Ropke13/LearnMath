@@ -39,6 +39,13 @@
 <form method="post">
     <div class="container">
         <input type="hidden" id="Input" name="Input" asp-for="@Model.Input" />
+        <input type="hidden" id="taskString" name="taskString" asp-for="_Task.TaskString" />
+        <input type="hidden" id="Ans1" name="Ans1" asp-for="_Task.Answer1" />
+        <input type="hidden" id="Ans2" name="Ans2" asp-for="_Task.Answer2" />
+        <input type="hidden" id="Ans3" name="Ans3" asp-for="_Task.Answer3" />
+        <input type="hidden" id="Ans4" name="Ans4" asp-for="_Task.Answer4" />
+        <input type="hidden" id="expl" name="expl" asp-for="_Task.Explaining" />
+
         @Html.HiddenFor(f => f.plainText)
         <div class="row">
             <div class="col-lg-12 mx-auto">
@@ -47,7 +54,7 @@
                 </div>
                 <div class="card" style="margin-bottom: 20px;">
                     <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Atsakymų rašyklė</label>
+                        <label for="exampleFormControlTextarea1">Uždavinio rašyklė</label>
                         <textarea class="form-control" id="TaskCreate" rows="3">\( \)</textarea>
 
                         <div class="row" style="margin-top: 15px;">
@@ -61,6 +68,14 @@
                                 <img src="/images/squareRoot.png" alt="Button Image">
                             </button>
                         </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <button type="button" id="saveEq" style="margin-left: 20px; margin-right: 10px;">Saugoti kaip uždavinį</button>
+                            <button type="button" id="saveAnswer1" style="margin-left: 20px; margin-right: 10px;">Saugoti kaip Atsakymą 1</button>
+                            <button type="button" id="saveAnswer2" style="margin-left: 20px; margin-right: 10px;">Saugoti kaip Atsakymą 2</button>
+                            <button type="button" id="saveAnswer3" style="margin-left: 20px; margin-right: 10px;">Saugoti kaip Atsakymą 3</button>
+                            <button type="button" id="saveAnswer4" style="margin-left: 20px; margin-right: 10px;">Saugoti kaip Atsakymą 4</button>
+                            <button type="button" id="saveExplain" style="margin-left: 20px; margin-right: 10px;">Saugoti kaip paaiškinimą</button>
+                        </div>
                     </div>
                 </div>
 
@@ -72,30 +87,55 @@
                 </div>
 
                 <div class="card" style="margin-bottom: 20px;">
-                    <div class="form-group">
+                    <label>Uždavinys saugojimui</label>
+                    <div id="displaySave" style="margin-bottom: 20px; margin-top: 20px; font-size: 32px;"></div>
+                </div>
+
+                <div class="card" style="margin-bottom: 20px;">
+                    <div class="form-group" style="border: solid">
                         <label for="exampleAnswer1">Atsakymas - 1</label>
-                        <input asp-for="_Task.Answer1" type="text" class="form-control" id="exampleAnswer1" aria-describedby="emailHelp">
+                        <div id="displaySaveAnswer1" style="margin-bottom: 20px; margin-top: 20px; font-size: 32px;" name="displaySaveAnswer1"></div>
                         <small id="emailHelp" class="form-text text-muted">Šis atsakymas turi būti užrašytas kaip teisingas</small>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="border: solid">
                         <label for="exampleAnswer2">Atsakymas - 2</label>
-                        <input asp-for="_Task.Answer2" type="text" class="form-control" id="exampleAnswer2">
+                        <div id="displaySaveAnswer2" style="margin-bottom: 20px; margin-top: 20px; font-size: 32px;" name="displaySaveAnswer2"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="border: solid">
                         <label for="exampleAnswer3">Atsakymas - 3</label>
-                        <input asp-for="_Task.Answer3" type="text" class="form-control" id="exampleAnswer3">
+                        <div id="displaySaveAnswer3" style="margin-bottom: 20px; margin-top: 20px; font-size: 32px;" name="displaySaveAnswer3"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="border: solid">
                         <label for="exampleAnswer4">Atsakymas - 4</label>
-                        <input asp-for="_Task.Answer4" type="text" class="form-control" id="exampleAnswer4">
+                        <div id="displaySaveAnswer4" style="margin-bottom: 20px; margin-top: 20px; font-size: 32px;" name="displaySaveAnswer4"></div>
                     </div>
                 </div>
 
                 <div class="card" style="margin-bottom: 20px;">
                     <div class="form-group">
                         <label for="Explaining">Atsakius į klausimą neteisingai būtu rodomas šis paaiškinimas:</label>
-                        <textarea asp-for="_Task.Explaining" class="form-control" id="Explaining" rows="3"></textarea>
+                        <div id="displayExplain" style="margin-bottom: 20px; margin-top: 20px; font-size: 32px;" name="displayExplain"></div>
                     </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3>Papildoma informacija</h3>
+                    <label for="tema"><b>Uždavinio tema:</b></label>
+                    <select class="custom-select" style="width:400px;" name="tema" id="tema">
+                        <option value="Realieji skaičiai ir skaičiavimai">Realieji skaičiai ir skaičiavimai</option>
+                        <option value="Skaitiniai ir raidiniai reiškiniai">Skaitiniai ir raidiniai reiškiniai</option>
+                        <option value="Lygtys, nelygybės ir jų sistemos">Lygtys, nelygybės ir jų sistemos</option>
+                        <option value="Trigonometrija">Trigonometrija</option>
+                        <option value="Difrencialinis skaičiavimas">Difrencialinis skaičiavimas</option>
+                        <option value="Kombinatorika ir tikimybių teorija">Kombinatorika ir tikimybių teorija</option>
+                        <option value="Atsitiktinis dydis. Statistika">Atsitiktinis dydis. Statistika</option>
+                    </select><br><br>
+
+                    <label for="tema"><b>Uždavinio sudetingumas:</b></label>
+                    <select class="custom-select" style="width:400px;" name="sunk" id="sunk">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                    </select><br><br>
                 </div>
 
                 <div class="card" style="margin-bottom: 20px;">
@@ -134,8 +174,18 @@
                                         <td scope="row">
                                             <div style="width: @Model.podsItems[i].ImgWidth; height: @Model.podsItems[i].ImgHeight;"><img class="card-img-top" src="@Model.podsItems[i].ImgUrl" alt="@Model.podsItems[i].Alt"></div>
                                         </td>
-                                        @Html.HiddenFor(f => f.podsItems[i].IsSaved)
-                                        <td>Prideti @Html.CheckBoxFor(f => f.podsItems[i].IsSaved)</td>
+
+                                        <td>
+                                            Prideti
+                                            <input type="checkbox" name="@("chkl_" + Model.podsItems[i].Id)" value="@Model.podsItems[i].IsActive" />
+                                            <input type="hidden" name="[@i].Id" value="@Model.podsItems[i].Id" />
+                                            <input type="hidden" name="[@i].imgId" value="@Model.podsItems[i].imgId" />
+                                            <input type="hidden" name="[@i].Title" value="@Model.podsItems[i].Title" />
+                                            <input type="hidden" name="[@i].ImgUrl" value="@Model.podsItems[i].ImgUrl" />
+                                            <input type="hidden" name="[@i].Alt" value="@Model.podsItems[i].Alt" />
+                                            <input type="hidden" name="[@i].ImgWidth" value="@Model.podsItems[i].ImgWidth" />
+                                            <input type="hidden" name="[@i].ImgHeight" value="@Model.podsItems[i].ImgHeight" />
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th colspan="3"><hr /></th>
@@ -174,6 +224,81 @@
             $('#plainText').val(text);
             $('#display').html(renderedText);
         }
+
+        $('#saveEq').click(function () {
+            const text = $('#TaskCreate').val();
+            const katexRegex = /\\\((.*?)\\\)/;
+
+            const renderedText = text.replace(katexRegex, (match, equation) => {
+                return katex.renderToString(equation);
+            });
+
+            const input = text.match(katexRegex);
+
+            $('#Input').val(input[1]);
+            $('#plainText').val(text);
+            $('#taskString').val(text);
+            $('#displaySave').html(renderedText);
+        });
+
+        $('#saveAnswer1').click(function () {
+            const text = $('#TaskCreate').val();
+            const katexRegex = /\\\((.*?)\\\)/;
+
+            const renderedText = text.replace(katexRegex, (match, equation) => {
+                return katex.renderToString(equation);
+            });
+
+            $('#Ans1').val(text);
+            $('#displaySaveAnswer1').html(renderedText);
+        });
+
+        $('#saveAnswer2').click(function () {
+            const text = $('#TaskCreate').val();
+            const katexRegex = /\\\((.*?)\\\)/;
+
+            const renderedText = text.replace(katexRegex, (match, equation) => {
+                return katex.renderToString(equation);
+            });
+
+            $('#Ans2').val(text);
+            $('#displaySaveAnswer2').html(renderedText);
+        });
+
+        $('#saveAnswer3').click(function () {
+            const text = $('#TaskCreate').val();
+            const katexRegex = /\\\((.*?)\\\)/;
+
+            const renderedText = text.replace(katexRegex, (match, equation) => {
+                return katex.renderToString(equation);
+            });
+
+            $('#Ans3').val(text);
+            $('#displaySaveAnswer3').html(renderedText);
+        });
+
+        $('#saveAnswer4').click(function () {
+            const text = $('#TaskCreate').val();
+            const katexRegex = /\\\((.*?)\\\)/;
+
+            const renderedText = text.replace(katexRegex, (match, equation) => {
+                return katex.renderToString(equation);
+            });
+
+            $('#Ans4').val(text);
+            $('#displaySaveAnswer4').html(renderedText);
+        });
+
+        $('#saveExplain').click(function () {
+            const text = $('#TaskCreate').val();
+            const katexRegex = /\\\((.*?)\\\)/;
+
+            const renderedText = text.replace(katexRegex, (match, equation) => {
+                return katex.renderToString(equation);
+            });
+            $('#expl').val(text);
+            $('#displayExplain').html(renderedText);
+        });
 
         $('#eqStart').click(function () {
             var textarea = $('#TaskCreate');
