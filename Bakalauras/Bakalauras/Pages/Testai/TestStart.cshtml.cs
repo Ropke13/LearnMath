@@ -42,6 +42,7 @@ namespace Bakalauras.Pages.Testai
 
         public async Task<IActionResult> OnPostStart(Guid id)
         {
+            Complete = new TestComplete();
             Tasks = await _db.TestTasks
                             .Where(tt => tt.fk__Test == id)
                             .Select(tt => tt._Task).ToListAsync();
@@ -51,12 +52,14 @@ namespace Bakalauras.Pages.Testai
             Complete.Id = Guid.NewGuid();
             Complete.Started = DateTime.Now;
             Complete.TotalTasks = Tasks.Count();
+            Complete.fk__Test = id;
 
             await _db.TestComplete.AddAsync(Complete);
 
             byte[] tasksData = JsonSerializer.SerializeToUtf8Bytes(Tasks);
 
             HttpContext.Session.Set("tasksData", tasksData);
+            HttpContext.Session.SetInt32("index", 0);
 
             await _db.SaveChangesAsync();
 

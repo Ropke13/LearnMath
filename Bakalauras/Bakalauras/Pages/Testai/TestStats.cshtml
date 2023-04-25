@@ -2,3 +2,50 @@
 @model Bakalauras.Pages.Testai.TestStatsModel
 @{
 }
+<div class="text-center">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mx-auto">
+                <div class="card">
+                    <div class="form-group">
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Vardas</th>
+                                    <th scope="col">Pavarde</th>
+                                    <th scope="col">Testa pradejo</th>
+                                    <th scope="col">Testa pabaige</th>
+                                    <th scope="col">Ivertis</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Completes.Count(); i++)
+                                {
+                                    <tr>
+                                        @{
+                                            int totalCorrectAnswers = 0;
+
+                                            foreach (var item in Model.completedTasks)
+                                            {
+                                                if (item.fk__TestComplete == Model.Completes[i].Id && item.IsAnsweredCorrectly) totalCorrectAnswers++;
+                                            }
+                                        }
+
+                                        <td>@(i+1)</td>
+                                        <td scope="row">Robertas</td>
+                                        <td>Trumpauskas</td>
+                                        <td>@Html.DisplayFor(f => f.Completes[i].Started)</td>
+                                        <td>@Html.DisplayFor(f => f.Completes[i].Finished)</td>
+                                        <td>@(10 / Model.Completes[i].TotalTasks * totalCorrectAnswers)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

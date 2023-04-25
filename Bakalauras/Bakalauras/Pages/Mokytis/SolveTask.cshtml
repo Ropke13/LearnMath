@@ -14,68 +14,160 @@
     }
 </style>
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12 mx-auto">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Mokausi Spresti kvadratines lygtis</h4>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
-                    </div>
-                    <hr />
-                    <div>
-                        <label><b>Uždavinio sudėtingumas:</b> B</label>
-                        <br />
-                        <label><b>Uždavinys iš egzamino ?:</b> NE</label>
-                    </div>
-                    <hr />
+<input type="hidden" id="start" name="start" asp-for="Complete.Started" />
+<input type="hidden" id="time" name="time" asp-for="Test.Time" />
 
-                    <p>Su kuriomis \(a\) reikšmėmis lygtis \((a+4)x^2+6x-1=0\) turi vienintelį sprendinį?</p>
-
-                    <hr />
-                    <div class="col-md-5">
+<form method="post">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 style="text-align:center">@Model.Test.TestName</h2>
+                        <hr />
+                        <h2 style="text-align:left">Klausimas @((Model.Index+1).ToString() + "/" + Model.Complete.TotalTasks.ToString())</h2>
+                        <h2 id="timer"></h2>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: @(((100/Model.Complete.TotalTasks) * Model.Index).ToString() + "%")"></div>
+                        </div>
+                        <hr />
                         <div>
-                            <h5 class="font-size-14 mb-4">Atsakymai</h5>
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="radio" name="formRadios"
-                                       id="formRadios1" checked>
-                                <label class="form-check-label" for="formRadios1">
-                                    12
-                                </label>
-                            </div>
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="radio" name="formRadios"
-                                       id="formRadios2" checked>
-                                <label class="form-check-label" for="formRadios2">
-                                    -4
-                                </label>
-                            </div>
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="radio" name="formRadios"
-                                       id="formRadios3" checked>
-                                <label class="form-check-label" for="formRadios3">
-                                    -13
-                                </label>
-                            </div>
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="radio" name="formRadios"
-                                       id="formRadios4" checked>
-                                <label class="form-check-label" for="formRadios4">
-                                    13 ir 4
-                                </label>
+                            <label><b>Uždavinio sudėtingumas:</b> @Model.Tasks[Model.Index].Level</label>
+                            <br />
+                            <label><b>Uždavinio tema:</b> @Model.Tasks[Model.Index].Theme</label>
+                        </div>
+                        <hr />
+
+                        <p>@Model.Tasks[Model.Index].TaskString</p>
+
+                        <hr />
+                        <div class="col-md-5">
+                            <div>
+                                <h5 class="font-size-14 mb-4">Atsakymai</h5>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="formRadios"
+                                           id="formRadios1" value="@Model.Answers[0]">
+                                    <label class="form-check-label" for="formRadios1">
+                                        @Model.Answers[0]
+                                    </label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="formRadios"
+                                           id="formRadios2" value="@Model.Answers[1]">
+                                    <label class="form-check-label" for="formRadios2">
+                                        @Model.Answers[1]
+                                    </label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="formRadios"
+                                           id="formRadios3" value="@Model.Answers[2]">
+                                    <label class="form-check-label" for="formRadios3">
+                                        @Model.Answers[2]
+                                    </label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="formRadios"
+                                           id="formRadios4" value="@Model.Answers[3]">
+                                    <label class="form-check-label" for="formRadios4">
+                                        @Model.Answers[3]
+                                    </label>
+                                </div>
                             </div>
                         </div>
+                        <hr />
+                        <div class="form-group">
+                            @if (Model.Index + 1 == Model.Complete.TotalTasks)
+                            {
+                                <button class="btn btn-danger btn-lg te" style="margin-bottom: 15px;" asp-route-ID="@Model.Test.Id" asp-page-handler="EndTest">Baigti Testa </button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary btn-lg te" style="margin-bottom: 15px;" asp-route-ID="@Model.Test.Id" asp-page-handler="Answer">Atsakyti </button>
+                            }
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary btn-lg te" data-toggle="modal" data-target=".bd-example-modal-lg">
+                                Mokytojo pagalba
+                            </button>
+                        </div>
+                        
                     </div>
-                    <hr />
-                    <div class="row">
-                        <a class="btn btn-primary btn-lg te" style="margin-bottom: 15px; margin-left: 15px; margin-right: 15px;" asp-page="/Mokytis/SolveTask">Atsakyti </a>
-                        <a class="btn btn-danger btn-lg te" style="margin-bottom: 15px;" asp-page="/Mokytis/SolveTask">Nežinau </a>
-                    </div>
-
                 </div>
+                <partial name="~/Pages/General/HelpPartial.cshtml" />
             </div>
-            <partial name="~/Pages/General/HelpPartial.cshtml" />
         </div>
     </div>
-</div>
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Mokytojo Pagalba</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if (Model.Api_Pods != null && Model.Api_Pods.Count() > 0)
+                    {
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Api_Pods.Count(); i++)
+                                {
+                                    <tr>
+                                        <th>@Html.DisplayFor(f => f.Api_Pods[i].Title)</th>
+                                        <td scope="row">
+                                            @{string url = "~/savedImages_API/" + Model.Api_Pods[i].Id.ToString() + ".jpg"; }
+                                            <div style="width: @Model.Api_Pods[i].ImgWidth; height: @Model.Api_Pods[i].ImgHeight;"><img class="card-img-top" src="@Url.Content(url)" alt="@Model.Api_Pods[i].Alt"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3"><hr /></th>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+    <script>
+        $(document).ready(function () {
+            var startTime = new Date($('#start').val());
+            var setTime = $('#time').val();
+            var currentTime = new Date();
+            var difference = currentTime.getTime() - startTime.getTime();
+            var differenceInSeconds = Math.floor(difference / 1000);
+            var targetTime = ((setTime * 60) - differenceInSeconds);
+
+            updateTimer();
+
+            var timerInterval = setInterval(updateTimer, 1000);
+
+            function updateTimer() {
+                if (targetTime <= 0) {
+                    // Timer has ended
+                    clearInterval(timerInterval);
+                    alert("Timer has ended!");
+                } else {
+                    // Update timer display
+                    var minutes = Math.floor(targetTime / 60);
+                    var seconds = targetTime % 60;
+                    $("#timer").text("Liko laiko: " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
+                    targetTime--;
+                }
+            }
+        });
+    </script>
