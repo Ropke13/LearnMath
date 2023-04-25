@@ -115,40 +115,27 @@
 </div>
 
 <script type="text/javascript">
-    // Initialize the board
     var board = JXG.JSXGraph.initBoard('box', { boundingbox: [-10, 10, 10, -10], axis: true });
 
-    // Create the sliders
     var a = board.create('slider', [[-1, -8], [-8, -8], [10, 1, -10]], { snapWidth: 1 });
     var b = board.create('slider', [[-1, -7], [-8, -7], [10, 0, -10]], { snapWidth: 1 });
-    var c = board.create('slider', [[-1, -6], [-8, -6], [10, 0, -10]], { snapWidth: 1 });
+    var c = board.create('slider', [[-1, -6], [-8, -6], [10, 1, -10]], { snapWidth: 1 });
 
-    // Create the quadratic function
     var f = function (x) { return a.Value() * x * x + b.Value() * x + c.Value(); };
 
-    // Create the curve
     var curve = board.create('functiongraph', [f, -10, 10], { strokecolor: 'blue', strokewidth: 2 });
 
-    // Create the labels for the sliders
     var labela = board.create('text', [0, -8, function () { return 'a = ' + a.Value().toFixed(2); }]);
     var labelb = board.create('text', [0, -7, function () { return 'b = ' + b.Value().toFixed(2); }]);
     var labelc = board.create('text', [0, -6, function () { return 'c = ' + c.Value().toFixed(2); }]);
 
-
-
-
-    // Initialize the board
     var board = JXG.JSXGraph.initBoard('box1', { boundingbox: [-10, 10, 10, -10], axis: true });
 
-    // Create the slider for the frequency
     var freq = board.create('slider', [[-8, 8], [-8, 7], [1, 1, 10]], { snapWidth: 1 });
 
-    // Create the function
     var f = function (x) { return Math.sin(freq.Value() * x); };
 
-    // Create the curve
     var curve = board.create('functiongraph', [f, -10, 10], { strokecolor: 'blue', strokewidth: 2 });
 
-    // Create the label for the frequency slider
     var labelfreq = board.create('text', [-7, 8, function () { return 'Frequency: ' + freq.Value().toFixed(0); }]);
 </script>
