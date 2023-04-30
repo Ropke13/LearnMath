@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bakalauras.Models
 {
@@ -15,7 +12,7 @@ namespace Bakalauras.Models
         public string Title { get; set; }
         public string ImgUrl { get; set; }
         public string Alt { get; set; }
-        public string ImgWidth {get; set;}
+        public string ImgWidth { get; set; }
         public string ImgHeight { get; set; }
         public bool IsActive { get; set; }
         public string ImgName { get; set; }

@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Bakalauras.Data;
 using Bakalauras.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Bakalauras.Pages.Uzdaviniai
 {
@@ -21,9 +21,23 @@ namespace Bakalauras.Pages.Uzdaviniai
 
         [BindProperty]
         public IEnumerable<_Task> _Task { get; set; }
-        public async Task<IActionResult> OnGet()
+
+        public async Task<IActionResult> OnGet(string userId = null)
         {
-            _Task = await _db._Task.ToListAsync();
+            if (userId == null)
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+                if (claim == null)
+                {
+                    return RedirectToPage("/Account/Login", new { area = "Identity" });
+                }
+
+                userId = claim.Value;
+            }
+
+            _Task = await _db._Task.Where(f => f.fk__User == userId).ToListAsync();
 
             return Page();
         }

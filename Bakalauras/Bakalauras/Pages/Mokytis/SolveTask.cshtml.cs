@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Bakalauras.Data;
 using Bakalauras.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Bakalauras.Pages.Mokytis
 {
@@ -82,7 +82,7 @@ namespace Bakalauras.Pages.Mokytis
 
             completedTask.SelectedAnswer = selectedAnswer;
 
-            if(selectedAnswer == Tasks[currentIndex].Answer1)
+            if (selectedAnswer == Tasks[currentIndex].Answer1)
             {
                 completedTask.IsAnsweredCorrectly = true;
             }

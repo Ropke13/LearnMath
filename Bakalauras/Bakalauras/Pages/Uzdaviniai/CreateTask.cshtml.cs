@@ -1,17 +1,18 @@
-using System;
-using System.Net;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using System.Web;
 using Bakalauras.Data;
 using Bakalauras.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace Bakalauras.Pages.Uzdaviniai
 {
@@ -40,20 +41,40 @@ namespace Bakalauras.Pages.Uzdaviniai
         [BindProperty]
         public _Task _Task { get; set; }
 
-        public void OnGet()
+        public IActionResult OnGet(string userId = null)
         {
+            if (userId == null)
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                if (claim == null)
+                {
+                    return RedirectToPage("/Account/Login", new { area = "Identity" });
+                }
+
+                return Page();
+            }
+
+            return Page();
         }
 
-        public async Task<IActionResult> OnPostCreate(string plainText, List<API_Pods> podsItems)
+        public async Task<IActionResult> OnPostCreate(string plainText, List<API_Pods> podsItems, string userId = null)
         {
+            if (userId == null)
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                userId = claim.Value;
+            }
             _Task.Id = Guid.NewGuid();
+            _Task.fk__User = userId;
 
             for (int i = 0; i < podsItems.Count(); i++)
             {
                 string name = "chkl_" + podsItems[i].Id;
                 var answer = Request.Form[name];
 
-                if(answer.Count == 1)
+                if (answer.Count == 1)
                 {
                     podsItems[i].IsActive = true;
                 }
@@ -110,7 +131,7 @@ namespace Bakalauras.Pages.Uzdaviniai
                 var pods = deserializedResult["queryresult"]["pods"];
                 podsItems = new List<API_Pods>();
 
-                if(pods == null)
+                if (pods == null)
                 {
                     return Page();
                 }

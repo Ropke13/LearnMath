@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bakalauras.Models
 {
@@ -18,5 +16,9 @@ namespace Bakalauras.Models
         public string Explaining { get; set; }
         public string Level { get; set; }
         public string Theme { get; set; }
+
+        [ForeignKey("fk__User")]
+        public ApplicationUser User { get; set; }
+        public string fk__User { get; set; }
     }
 }

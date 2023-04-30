@@ -1,14 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Bakalauras.Data;
 using Bakalauras.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Bakalauras.Pages.Testai
 {
@@ -24,7 +25,7 @@ namespace Bakalauras.Pages.Testai
         public Guid? id { get; set; }
 
         [BindProperty]
-        public IEnumerable <TestComplete> TestC { get; set; }
+        public IEnumerable<TestComplete> TestC { get; set; }
         public Test Test { get; set; }
         public TestComplete Complete { get; set; }
         public List<_Task> Tasks { get; set; }
@@ -40,8 +41,15 @@ namespace Bakalauras.Pages.Testai
             return Page();
         }
 
-        public async Task<IActionResult> OnPostStart(Guid id)
+        public async Task<IActionResult> OnPostStart(Guid id, string userId = null)
         {
+            if (userId == null)
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                userId = claim.Value;
+            }
+
             Complete = new TestComplete();
             Tasks = await _db.TestTasks
                             .Where(tt => tt.fk__Test == id)
@@ -53,6 +61,7 @@ namespace Bakalauras.Pages.Testai
             Complete.Started = DateTime.Now;
             Complete.TotalTasks = Tasks.Count();
             Complete.fk__Test = id;
+            Complete.fk__User = userId;
 
             await _db.TestComplete.AddAsync(Complete);
 

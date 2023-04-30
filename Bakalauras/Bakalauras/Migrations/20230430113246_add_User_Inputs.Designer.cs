@@ -4,14 +4,16 @@ using Bakalauras.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bakalauras.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230430113246_add_User_Inputs")]
+    partial class add_User_Inputs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,12 +194,7 @@ namespace Bakalauras.Migrations
                     b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("fk__User")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("fk__User");
 
                     b.ToTable("_Task");
                 });
@@ -408,7 +405,7 @@ namespace Bakalauras.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Bakalauras.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Bakalauras.Models.AppUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
@@ -421,7 +418,7 @@ namespace Bakalauras.Migrations
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("ApplicationUser");
+                    b.HasDiscriminator().HasValue("AppUser");
                 });
 
             modelBuilder.Entity("Bakalauras.Models.API_Pods", b =>
@@ -454,13 +451,6 @@ namespace Bakalauras.Migrations
                     b.HasOne("Bakalauras.Models.Test", "Test")
                         .WithMany()
                         .HasForeignKey("fk__Test");
-                });
-
-            modelBuilder.Entity("Bakalauras.Models._Task", b =>
-                {
-                    b.HasOne("Bakalauras.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("fk__User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

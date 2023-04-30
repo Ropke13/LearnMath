@@ -1,12 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Bakalauras.Data;
 using Bakalauras.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Bakalauras.Pages.Testai
 {
@@ -25,27 +26,35 @@ namespace Bakalauras.Pages.Testai
         [BindProperty]
         public Test Test { get; set; }
 
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGet(string userId = null)
         {
-            //if (HttpContext.Session.GetString("id") == null)
-            //{
-            //    return RedirectToPage("/Login");
-            //}
-
-            //else if (HttpContext.Session.GetString("role") != "Administratorius")
-            //{
-            //    return RedirectToPage("/Login");
-            //}
+            if (userId == null)
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                if (claim == null)
+                {
+                    return RedirectToPage("/Account/Login", new { area = "Identity" });
+                }
+            }
 
             _Tasks = await _db._Task.ToListAsync();
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostCreate(List<_Task> _Tasks)
+        public async Task<IActionResult> OnPostCreate(List<_Task> _Tasks, string userId = null)
         {
+            if (userId == null)
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                userId = claim.Value;
+            }
+
             Test.Id = Guid.NewGuid();
             Test.TestCode = GenerateRandomCode();
+            Test.fk__User = userId;
 
             for (int i = 0; i < _Tasks.Count(); i++)
             {

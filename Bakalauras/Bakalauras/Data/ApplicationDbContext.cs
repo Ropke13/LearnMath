@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Bakalauras.Models;
+﻿using Bakalauras.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,5 +18,6 @@ namespace Bakalauras.Data
         public DbSet<TestComplete> TestComplete { get; set; }
         public DbSet<TestTasks> TestTasks { get; set; }
         public DbSet<TestCompletedTask> TestCompletedTask { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
     }
 }
