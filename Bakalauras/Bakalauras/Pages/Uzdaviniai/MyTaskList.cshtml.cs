@@ -3,6 +3,7 @@ using Bakalauras.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -40,6 +41,22 @@ namespace Bakalauras.Pages.Uzdaviniai
             _Task = await _db._Task.Where(f => f.fk__User == userId).ToListAsync();
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostDelete(Guid Id)
+        {
+            var del = await _db._Task.FindAsync(Id);
+
+            if (del == null)
+            {
+                return NotFound();
+            }
+
+            _db._Task.Remove(del);
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("OnGet");
         }
     }
 }

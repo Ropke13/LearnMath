@@ -15,45 +15,47 @@
     }
 </style>
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12 mx-auto">
-            <h1 style="text-align:center;">Mano Uždaviniai</h1>
+<form method="post">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mx-auto">
+                <h1 style="text-align:center;">Mano Uždaviniai</h1>
 
-            <div class="card">
-                <a class="btn btn-info btn-lg te" style="margin-top: 15px;margin-bottom: 15px; margin-left: 15px; margin-right: 15px;" asp-page="/Uzdaviniai/CreateTask">Sukurti nauja uždavinį </a>
-                @if (Model._Task.Count() > 0)
-                {
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Uždavinys</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{int i = 1; }
-                        @foreach (var item in Model._Task)
-                        {
-                            <tr>
-                                <th scope="row">@i</th>
-                                <td><p class="tttt"><span>@Html.DisplayFor(f => item.TaskString)</span></p></td>
-                                <td><a class="btn btn-success btn-lg te" style="margin-bottom: 15px; margin-left: 15px; margin-right: 15px;" asp-page="/Mokytis/SolveTask">Redaguoti </a></td>
-                                <td><a class="btn btn-danger btn-lg te" style="margin-bottom: 15px;" asp-page="/Mokytis/SolveTask">Pašalinti </a></td>
-                            </tr>
-                            i++;
-                        }
-                    </tbody>
-                </table>
-                            }
-                            else
-                            {
-                                <label>Neturite uždavinių</label>
-                            }
+                <div class="card">
+                    <a class="btn btn-info btn-lg te" style="margin-top: 15px;margin-bottom: 15px; margin-left: 15px; margin-right: 15px;" asp-page="/Uzdaviniai/CreateTask">Sukurti nauja uždavinį </a>
+                    @if (Model._Task.Count() > 0)
+                    {
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Uždavinys</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int i = 1; }
+                                @foreach (var item in Model._Task)
+                                {
+                                    <tr>
+                                        <th scope="row">@i</th>
+                                        <td><p class="tttt"><span>@Html.DisplayFor(f => item.TaskString)</span></p></td>
+                                        <td><a class="btn btn-success btn-lg te" style="margin-bottom: 15px; margin-left: 15px; margin-right: 15px;" asp-page="/Mokytis/SolveTask">Redaguoti </a></td>
+                                        <td><button class="btn btn-danger btn-lg te" style="margin-bottom: 15px;" asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm('Ar tikrai norite pašalinti uždavinį?')">Pašalinti </button></td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <label>Neturite uždavinių</label>
+                    }
+                </div>
+
             </div>
-
         </div>
     </div>
-</div>
+</form>

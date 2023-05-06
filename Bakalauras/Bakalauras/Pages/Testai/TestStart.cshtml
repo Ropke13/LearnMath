@@ -10,7 +10,20 @@
                     <div class="card">
                         @if (Model.TestC.Count() > 0)
                         {
+                            <input type="hidden" id="From" name="From" asp-for="@Model.Test.From" />
+                            <input type="hidden" id="To" name="To" asp-for="@Model.Test.To" />
 
+                            <div class="form-group">
+                                <h2>Testo @(Model.TestC.Count()+1) bandymas.</h2>
+                                <hr />
+                                <label>Viso klausimų: @Model.Tasks.Count()</label><br />
+                                <label>Testui skirtas laikas: @Model.Test.Time minučių</label><br />
+                                <label>Testas atidaromas: @Model.Test.From</label><br />
+                                <label>Testas uždaromas: @Model.Test.To</label>
+                            </div>
+                            <div class="form-group">
+                                <button asp-route-ID="@Model.Test.Id" asp-page-handler="Start" id="start" class="btn btn-info btn-lg te">Pradėti</button>
+                            </div>
                         }
                         else
                         {
@@ -18,7 +31,7 @@
                             <input type="hidden" id="To" name="To" asp-for="@Model.Test.To" />
 
                             <div class="form-group">
-                                <h2>Testo 1 bandymas.</h2>
+                                <h2>Testo @(Model.TestC.Count()+1) bandymas.</h2>
                                 <hr />
                                 <label>Viso klausimų: @Model.Tasks.Count()</label><br />
                                 <label>Testui skirtas laikas: @Model.Test.Time minučių</label><br />

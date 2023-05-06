@@ -1,6 +1,8 @@
 ﻿using Bakalauras.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Bakalauras.Data
 {

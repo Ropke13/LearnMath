@@ -21,7 +21,8 @@
                         <label>Testui skirtas laikas: @Model.Test.Time minučių</label><br />
                         <label>Užtrukote laiko: @(Model.Complete.Finished - Model.Complete.Started) </label><br />
                         <label>Teisingai atsakyta: @Model.totalCorrectAnswers / @Model.Complete.TotalTasks</label><br />
-                        <label>Ivertinimas: @(10 / @Model.Complete.TotalTasks * @Model.totalCorrectAnswers)</label><br />
+                        @{double Grade = 10 / (double)@Model.Complete.TotalTasks * (double)@Model.totalCorrectAnswers;}
+                        <label>Ivertinimas: @Grade</label><br />
                     </div>
                     <hr />
                     <div class="form-group">

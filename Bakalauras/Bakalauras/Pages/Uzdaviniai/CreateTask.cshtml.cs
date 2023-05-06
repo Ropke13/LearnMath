@@ -58,7 +58,7 @@ namespace Bakalauras.Pages.Uzdaviniai
             return Page();
         }
 
-        public async Task<IActionResult> OnPostCreate(string plainText, List<API_Pods> podsItems, string userId = null)
+        public async Task<IActionResult> OnPostCreate(List<API_Pods> podsItems, string userId = null)
         {
             if (userId == null)
             {
@@ -98,7 +98,7 @@ namespace Bakalauras.Pages.Uzdaviniai
             _Task.Answer3 = Request.Form["Ans3"];
             _Task.Answer4 = Request.Form["Ans4"];
 
-            _Task.Explaining = Request.Form["expl"];
+            //_Task.Explaining = Request.Form["expl"];
             _Task.Level = Request.Form["sunk"];
             _Task.Theme = Request.Form["tema"];
 

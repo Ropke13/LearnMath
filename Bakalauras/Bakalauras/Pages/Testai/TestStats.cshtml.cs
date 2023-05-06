@@ -27,7 +27,7 @@ namespace Bakalauras.Pages.Testai
         {
             Test = await _db.Test.FindAsync(id);
 
-            Completes = await _db.TestComplete.Where(f => f.fk__Test == id && f.Finished != null).ToListAsync();
+            Completes = await _db.TestComplete.Where(f => f.fk__Test == id && f.Finished != null).Include(f => f.User).ToListAsync();
 
             completedTasks = await _db.TestCompletedTask.ToListAsync();
 

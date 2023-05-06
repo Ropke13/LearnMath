@@ -49,6 +49,7 @@ namespace Bakalauras.Pages.Testai
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
                 userId = claim.Value;
             }
+            TestC = await _db.TestComplete.Where(f => f.fk__Test == id && f.fk__User == userId).ToListAsync();
 
             Complete = new TestComplete();
             Tasks = await _db.TestTasks
@@ -62,6 +63,7 @@ namespace Bakalauras.Pages.Testai
             Complete.TotalTasks = Tasks.Count();
             Complete.fk__Test = id;
             Complete.fk__User = userId;
+            Complete.Attempt = TestC.Count() + 1;
 
             await _db.TestComplete.AddAsync(Complete);
 

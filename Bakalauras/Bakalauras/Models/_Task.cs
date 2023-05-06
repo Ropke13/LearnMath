@@ -13,7 +13,6 @@ namespace Bakalauras.Models
         public string Answer2 { get; set; }
         public string Answer3 { get; set; }
         public string Answer4 { get; set; }
-        public string Explaining { get; set; }
         public string Level { get; set; }
         public string Theme { get; set; }
 

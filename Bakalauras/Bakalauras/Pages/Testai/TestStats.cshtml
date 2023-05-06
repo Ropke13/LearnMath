@@ -9,7 +9,7 @@
             <div class="col-lg-12 mx-auto">
                 <div class="card">
                     <div class="form-group">
-                        <table class="table table-borderless">
+                        <table id="datatable" class="table table-bordered" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
                                     <th scope="col"></th>
@@ -34,11 +34,12 @@
                                         }
 
                                         <td>@(i+1)</td>
-                                        <td scope="row">Robertas</td>
-                                        <td>Trumpauskas</td>
+                                        <td scope="row">@Html.DisplayFor(f => f.Completes[i].User.Name)</td>
+                                        <td>@Html.DisplayFor(f => f.Completes[i].User.Surname)</td>
                                         <td>@Html.DisplayFor(f => f.Completes[i].Started)</td>
                                         <td>@Html.DisplayFor(f => f.Completes[i].Finished)</td>
-                                        <td>@(10 / Model.Completes[i].TotalTasks * totalCorrectAnswers)</td>
+                                        @{double Grade = 10 / (double)@Model.Completes[i].TotalTasks * (double)totalCorrectAnswers;}
+                                        <td>@Grade</td>
                                     </tr>
                                 }
                             </tbody>

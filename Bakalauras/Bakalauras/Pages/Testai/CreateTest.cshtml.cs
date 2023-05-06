@@ -38,7 +38,7 @@ namespace Bakalauras.Pages.Testai
                 }
             }
 
-            _Tasks = await _db._Task.ToListAsync();
+            _Tasks = await _db._Task.Where(f => f.fk__User == userId).ToListAsync();
 
             return Page();
         }
