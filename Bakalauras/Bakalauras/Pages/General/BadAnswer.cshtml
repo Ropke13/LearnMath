@@ -1,4 +1,13 @@
 ﻿@page
 @model Bakalauras.Pages.General.BadAnswerModel
 @{
+    ViewData["Title"] = "Neteisingai";
 }
+
+<header>
+    <form method="post">
+        <h1 class="text-danger">@ViewData["Title"]</h1>
+        <p class="text-danger"><h3>Teisingas atsakymas: @Model.Corrent</h3></p>
+        <button asp-page-handler="Next" id="start" class="btn btn-info btn-lg te">Toliau</button>
+    </form>
+</header>

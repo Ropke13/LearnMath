@@ -1,5 +1,7 @@
 using Bakalauras.Data;
 using Bakalauras.Models;
+using Bakalauras.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace Bakalauras.Pages.Testai
 {
+    [Authorize(Roles = SD.TeachUser + ", " + SD.AdminUser)]
     public class MyTestsListModel : PageModel
     {
         private readonly ApplicationDbContext _db;
@@ -33,7 +36,7 @@ namespace Bakalauras.Pages.Testai
                 userId = claim.Value;
             }
 
-            Test = await _db.Test.Where(f => f.fk__User == userId).ToListAsync();
+            Test = await _db.Test.Where(f => f.fk__User == userId && f.IsActive).ToListAsync();
 
             return Page();
         }
@@ -47,7 +50,7 @@ namespace Bakalauras.Pages.Testai
                 return NotFound();
             }
 
-            _db.Test.Remove(del);
+            del.IsActive = false;
 
             await _db.SaveChangesAsync();
 

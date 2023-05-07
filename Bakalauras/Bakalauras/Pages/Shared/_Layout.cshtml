@@ -1,6 +1,6 @@
 ﻿@inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-
+@using Bakalauras.Utility;
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,28 +52,49 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (SignInManager.IsSignedIn(User))
                         {
+                            var user = await UserManager.GetUserAsync(User);
+
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Index">Temos</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-page="/Uzdaviniai/MyTaskList">Mano uždaviniai</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-page="/Testai/MyTestsList">Mano testai</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-page="/Testai/MyCompletedTestList">Mano rezultatai</a>
-                            </li>
+                            @if (await UserManager.IsInRoleAsync(user, SD.AdminUser) || await UserManager.IsInRoleAsync(user, SD.TeachUser))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-page="/Uzdaviniai/MyTaskList">Mano uždaviniai</a>
+                                </li>
+                            }
+
+                            @if (await UserManager.IsInRoleAsync(user, SD.AdminUser) || await UserManager.IsInRoleAsync(user, SD.TeachUser))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-page="/Testai/MyTestsList">Mano testai</a>
+                                </li>
+                            }
+
+                            @if (await UserManager.IsInRoleAsync(user, SD.AdminUser) || await UserManager.IsInRoleAsync(user, SD.UserUser))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-page="/Testai/MyCompletedTestList">Mano rezultatai</a>
+                                </li>
+                            }
+
                             @*<li class="nav-item">
-                <a class="nav-link text-light" asp-area="" asp-page="/CreateTask">Pasiekimai</a>
-            </li>*@
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-page="/CreateTask">Administravimas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-page="/Testai/TestEnterCode">Spresti testą</a>
-                            </li>
-                }
+                                    <a class="nav-link text-light" asp-area="" asp-page="/CreateTask">Pasiekimai</a>
+                                </li>*@
+                            @if (await UserManager.IsInRoleAsync(user, SD.AdminUser) || await UserManager.IsInRoleAsync(user, SD.AdminUser))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-page="/CreateTask">Administravimas</a>
+                                </li>
+                            }
+
+                            @if (await UserManager.IsInRoleAsync(user, SD.AdminUser) || await UserManager.IsInRoleAsync(user, SD.UserUser))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-page="/Testai/TestEnterCode">Spresti testą</a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>

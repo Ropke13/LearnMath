@@ -66,7 +66,10 @@
                     <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" class="d-block position-relative collapsed text-dark text-uppercase collapsible-link py-2">Lygtys, nelygybės ir jų sistemos</a></h6>
                 </div>
                 <div id="collapseThree" aria-labelledby="headingThree" data-parent="#accordionExample" class="collapse">
-                    <div id="box" class="jxgbox" style="width: 500px; height: 500px;"></div>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <div id="box" class="jxgbox" style="width: 500px; height: 500px;"></div>
+                        <div id="root" class="jxgbox" style="width: 500px; height: 500px;"></div>
+                    </div>
                 </div>
             </div>
 
@@ -76,7 +79,9 @@
                     <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" class="d-block position-relative collapsed text-dark text-uppercase collapsible-link py-2">Trigonometrija</a></h6>
                 </div>
                 <div id="collapseFour" aria-labelledby="headingFour" data-parent="#accordionExample" class="collapse">
-                    <div id="box1" class="jxgbox" style="width: 500px; height: 500px;"></div>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <div id="box1" class="jxgbox" style="width: 500px; height: 500px;"></div>
+                    </div>
                 </div>
             </div>
 
@@ -86,7 +91,7 @@
                     <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive" class="d-block position-relative collapsed text-dark text-uppercase collapsible-link py-2">Diferencialinis skaičiavimas</a></h6>
                 </div>
                 <div id="collapseFive" aria-labelledby="headingFive" data-parent="#accordionExample" class="collapse">
-                    
+
                 </div>
             </div>
 
@@ -106,7 +111,7 @@
                     <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" class="d-block position-relative collapsed text-dark text-uppercase collapsible-link py-2">Atsitiktinis dydis. Statistika</a></h6>
                 </div>
                 <div id="collapseSeven" aria-labelledby="headingSeven" data-parent="#accordionExample" class="collapse">
-                    
+
                 </div>
             </div>
 
@@ -119,7 +124,7 @@
 
     var a = board.create('slider', [[-1, -8], [-8, -8], [10, 1, -10]], { snapWidth: 1 });
     var b = board.create('slider', [[-1, -7], [-8, -7], [10, 0, -10]], { snapWidth: 1 });
-    var c = board.create('slider', [[-1, -6], [-8, -6], [10, 1, -10]], { snapWidth: 1 });
+    var c = board.create('slider', [[-1, -6], [-8, -6], [10, 0, -10]], { snapWidth: 1 });
 
     var f = function (x) { return a.Value() * x * x + b.Value() * x + c.Value(); };
 
@@ -128,6 +133,12 @@
     var labela = board.create('text', [0, -8, function () { return 'a = ' + a.Value().toFixed(2); }]);
     var labelb = board.create('text', [0, -7, function () { return 'b = ' + b.Value().toFixed(2); }]);
     var labelc = board.create('text', [0, -6, function () { return 'c = ' + c.Value().toFixed(2); }]);
+
+
+
+
+
+
 
     var board = JXG.JSXGraph.initBoard('box1', { boundingbox: [-10, 10, 10, -10], axis: true });
 
@@ -138,4 +149,22 @@
     var curve = board.create('functiongraph', [f, -10, 10], { strokecolor: 'blue', strokewidth: 2 });
 
     var labelfreq = board.create('text', [-7, 8, function () { return 'Frequency: ' + freq.Value().toFixed(0); }]);
+
+
+
+
+
+
+
+    var board = JXG.JSXGraph.initBoard('root', { boundingbox: [-10, 10, 10, -10], axis: true });
+
+    var aa = board.create('slider', [[-1, -8], [-8, -8], [10, 0, -10]], { snapWidth: 1 });
+    var bb = board.create('slider', [[-1, -7], [-8, -7], [10, 0, -10]], { snapWidth: 1 });
+
+    var f = function (x) { return Math.sqrt(x - aa.Value()) + bb.Value(); };
+
+    var curve = board.create('functiongraph', [f, -10, 10], { strokecolor: 'blue', strokewidth: 2 });
+
+    var labela = board.create('text', [0, -8, function () { return 'a = ' + aa.Value().toFixed(2); }]);
+    var labelb = board.create('text', [0, -7, function () { return 'b = ' + bb.Value().toFixed(2); }]);
 </script>

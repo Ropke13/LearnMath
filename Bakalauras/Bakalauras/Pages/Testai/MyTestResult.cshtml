@@ -1,0 +1,80 @@
+﻿@page
+@model Bakalauras.Pages.Testai.MyTestResultModel
+@{
+}
+<div class="text-center">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mx-auto">
+                <div class="card">
+                    <input type="hidden" id="From" name="From" asp-for="@Model.Test.From" />
+                    <input type="hidden" id="To" name="To" asp-for="@Model.Test.To" />
+
+                    <div class="form-group">
+                        <h2>Testo 1 bandymas.</h2>
+                        <hr />
+                        @{
+                            double Grade = 10 / (double)@Model.Complete.TotalTasks * (double)@Model.totalCorrectAnswers;
+                            TimeSpan? result = Model.Complete.Finished - Model.Complete.Started;
+                            int hours = (int)result.Value.TotalHours;
+                            int minutes = result.Value.Minutes;
+                            int seconds = result.Value.Seconds;
+
+                            // Format time difference into string
+                            string timeDiffStr = $"{hours}h:{minutes:D2}m:{seconds:D2}s";
+                        }
+                        <label>Viso klausimų: @Model.completedTasks.Count()</label><br />
+                        <label>Testui skirtas laikas: @Model.Test.Time minučių</label><br />
+                        <label>Užtrukote laiko: @timeDiffStr </label><br />
+                        <label>Teisingai atsakyta: @Model.totalCorrectAnswers / @Model.Complete.TotalTasks</label><br />
+
+                        <label>Ivertinimas: @Grade</label><br />
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Uždavinys</th>
+                                    <th scope="col">Jusu atsakymas</th>
+                                    <th scope="col">Teisingas atsakymas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.completedTasks.Count(); i++)
+                                {
+                                    <tr>
+                                        <td>@(i+1)</td>
+                                        <td scope="row">@Html.DisplayFor(f => f.Tasks.Where(x => x.Id == Model.completedTasks[i].TaskId).FirstOrDefault().TaskString)</td>
+                                        <td>@Html.DisplayFor(f => f.completedTasks[i].SelectedAnswer)</td>
+                                        <td>@Html.DisplayFor(f => f.Tasks.Where(x => x.Id == Model.completedTasks[i].TaskId).FirstOrDefault().Answer1)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var tbody = $("tbody");
+
+        tbody.find("tr").each(function () {
+            var cell2 = $(this).find("td:nth-child(3)").text();
+            var cell3 = $(this).find("td:nth-child(4)").text();
+
+            if (cell2 === cell3) {
+                // If the cells are equal, change the row color to green
+                $(this).css("background-color", "#8CD47E");
+            } else {
+                // If the cells are not equal, change the row color to red
+                $(this).css("background-color", "#FF6961");
+            }
+        });
+    });
+</script>

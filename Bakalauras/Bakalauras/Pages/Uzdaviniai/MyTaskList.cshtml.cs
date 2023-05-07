@@ -1,5 +1,7 @@
 using Bakalauras.Data;
 using Bakalauras.Models;
+using Bakalauras.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Bakalauras.Pages.Uzdaviniai
 {
+    [Authorize(Roles = SD.TeachUser + ", " + SD.AdminUser)]
     public class MyTaskListModel : PageModel
     {
         private readonly ApplicationDbContext _db;
@@ -38,7 +41,7 @@ namespace Bakalauras.Pages.Uzdaviniai
                 userId = claim.Value;
             }
 
-            _Task = await _db._Task.Where(f => f.fk__User == userId).ToListAsync();
+            _Task = await _db._Task.Where(f => f.fk__User == userId && f.IsActive).ToListAsync();
 
             return Page();
         }
@@ -52,7 +55,7 @@ namespace Bakalauras.Pages.Uzdaviniai
                 return NotFound();
             }
 
-            _db._Task.Remove(del);
+            del.IsActive = false;
 
             await _db.SaveChangesAsync();
 

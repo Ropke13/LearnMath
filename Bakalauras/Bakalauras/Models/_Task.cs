@@ -15,9 +15,16 @@ namespace Bakalauras.Models
         public string Answer4 { get; set; }
         public string Level { get; set; }
         public string Theme { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsPublic { get; set; }
 
         [ForeignKey("fk__User")]
         public ApplicationUser User { get; set; }
         public string fk__User { get; set; }
+
+        public _Task()
+        {
+            IsActive = true;
+        }
     }
 }

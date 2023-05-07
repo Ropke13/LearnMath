@@ -1,4 +1,12 @@
 ﻿@page
 @model Bakalauras.Pages.General.GoodAnswerModel
 @{
+    ViewData["Title"] = "Teisingai!";
 }
+
+<header>
+    <form method="post">
+        <h1 class="text-danger">@ViewData["Title"]</h1>
+        <button asp-page-handler="Next" id="start" class="btn btn-info btn-lg te">Toliau</button>
+    </form>
+</header>

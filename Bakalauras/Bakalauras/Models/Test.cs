@@ -14,9 +14,15 @@ namespace Bakalauras.Models
         public DateTime To { get; set; }
         public string Password { get; set; }
         public int Time { get; set; }
+        public bool IsActive { get; set; }
 
         [ForeignKey("fk__User")]
         public ApplicationUser User { get; set; }
         public string fk__User { get; set; }
+
+        public Test()
+        {
+            IsActive = true;
+        }
     }
 }

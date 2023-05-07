@@ -1,4 +1,6 @@
-﻿using Bakalauras.Models;
+﻿using Bakalauras.Data;
+using Bakalauras.Models;
+using Bakalauras.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -21,17 +23,22 @@ namespace Bakalauras.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         //private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationDbContext _db;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<RegisterModel> logger
+            ILogger<RegisterModel> logger,
             //IEmailSender emailSender
-            )
+            RoleManager<IdentityRole> roleManager,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _roleManager = roleManager;
+            _db = db;
             //_emailSender = emailSender;
         }
 
@@ -92,6 +99,32 @@ namespace Bakalauras.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    if(!await _roleManager.RoleExistsAsync(SD.AdminUser))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(SD.AdminUser));
+                    }
+
+                    if (!await _roleManager.RoleExistsAsync(SD.UserUser))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(SD.UserUser));
+                    }
+
+                    if (!await _roleManager.RoleExistsAsync(SD.TeachUser))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(SD.TeachUser));
+                    }
+
+                    string role = Request.Form["role"];
+
+                    if (role == "Mokytojas")
+                    {
+                        await _userManager.AddToRoleAsync(user, SD.TeachUser);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, SD.UserUser);
+                    }
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

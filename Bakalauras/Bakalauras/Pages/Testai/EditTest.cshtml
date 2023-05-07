@@ -2,3 +2,103 @@
 @model Bakalauras.Pages.Testai.EditTestModel
 @{
 }
+<style>
+    .info-card {
+        margin-bottom: 1px;
+        background-color: #3E363F;
+        color: aliceblue;
+    }
+</style>
+
+<h2 style="text-align:center">Testo Kūrimas</h2>
+<form method="post">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mx-auto">
+                <div class="card info-card">
+                    <input type="hidden" asp-for="Test.Id" />
+                    <h3 style="text-align: center; color:aliceblue">Informacija apie testą</h3><hr />
+                    <div style="margin-left: 400px">
+                        <div class="form-group">
+                            <label for="Test-name" class="col-sm-3 col-form-label">Testo Pavadinimas</label><br />
+                            <div class="col-sm-5">
+                                <input asp-for="Test.TestName" class="form-control" type="text" placeholder="Iveskite Testo pavadinima" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="example-datetime-local-input" class="col-sm-4 col-form-label">Testas Atidaromoas nuo:</label>
+                            <div class="col-sm-5">
+                                <input asp-for="Test.From" class="form-control" type="datetime-local" id="example-datetime-local-input">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="example-datetime-local-inputk" class="col-sm-4 col-form-label">Testas Uždaromas nuo:</label>
+                            <div class="col-sm-5">
+                                <input asp-for="Test.To" class="form-control" type="datetime-local" id="example-datetime-local-input">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Test-pasw" class="col-sm-3 col-form-label">Testo Slaptažodis</label><br />
+                            <div class="col-sm-5">
+                                <input asp-for="Test.Password" class="form-control" type="text" placeholder="Iveskite Testo slaptažodi" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Test-time" class="col-sm-5 col-form-label">Testo Sprendimo laikas (min)</label><br />
+                            <div class="col-sm-5">
+                                <input asp-for="Test.Time" class="form-control" type="number" placeholder="Iveskite sprendimo laika" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3 style="text-align: center">Pasirinkite uždavinius testui</h3>
+                    @if (Model._Tasks != null && Model._Tasks.Count() > 0)
+                    {
+                        <table id="datatable" class="table table-bordered" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center" scope="col">Uždavinio sąlyga</th>
+                                    <th style="text-align:center" scope="col">Lygis</th>
+                                    <th style="text-align:center" scope="col">Tema</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model._Tasks.Count(); i++)
+                                {
+                                    <tr>
+                                        <th style="text-align:left">@Html.DisplayFor(f => f._Tasks[i].TaskString)</th>
+                                        <th style="text-align:center">@Html.DisplayFor(f => f._Tasks[i].Level)</th>
+                                        <th style="text-align:center">@Html.DisplayFor(f => f._Tasks[i].Theme)</th>
+                                        <td style="width:10%">
+                                            Prideti
+                                            @if (Model.SelectedTasks.Any(x => x.fk__Task == Model._Tasks[i].Id))
+                                            {
+                                                <input type="checkbox" name="@("chkl_" + Model._Tasks[i].Id)" checked/>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" name="@("chkl_" + Model._Tasks[i].Id)" />
+                                            }
+                                            <input type="hidden" name="[@i].Id" value="@Model._Tasks[i].Id" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+                <div class="card" style="margin-bottom: 20px;">
+                    <button asp-page-handler="Edit" class="btn btn-success btn-sm text-white">Redaguoti Testą</button>
+                </div><div class="card" style="margin-bottom: 20px;">
+                    <a asp-page="/Testai/MyTestsList" class="btn btn-dark form-control">Grįšti Atgal</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,5 +1,7 @@
 using Bakalauras.Data;
 using Bakalauras.Models;
+using Bakalauras.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Bakalauras.Pages.Testai
 {
+    [Authorize(Roles = SD.TeachUser + ", " + SD.AdminUser)]
     public class CreateTestModel : PageModel
     {
         private readonly ApplicationDbContext _db;
@@ -36,6 +39,7 @@ namespace Bakalauras.Pages.Testai
                 {
                     return RedirectToPage("/Account/Login", new { area = "Identity" });
                 }
+                else userId = claim.Value;
             }
 
             _Tasks = await _db._Task.Where(f => f.fk__User == userId).ToListAsync();

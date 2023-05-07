@@ -1,11 +1,16 @@
+using Microsoft.AspNetCore.Identity;
 using Bakalauras.Data;
 using Bakalauras.Models;
+using Bakalauras.Utility;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -16,14 +21,19 @@ using System.Web;
 
 namespace Bakalauras.Pages.Uzdaviniai
 {
+    [Authorize(Roles = SD.TeachUser + ", " + SD.AdminUser)]
     public class CreateTaskModel : PageModel
     {
 
         private readonly ApplicationDbContext _db;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public CreateTaskModel(ApplicationDbContext db)
+        public CreateTaskModel(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment, UserManager<IdentityUser> userManager)
         {
             _db = db;
+            _webHostEnvironment = webHostEnvironment;
+            _userManager = userManager;
         }
 
         public string Input = "";
@@ -80,8 +90,8 @@ namespace Bakalauras.Pages.Uzdaviniai
                 }
 
                 podsItems[i].fk__Task = _Task.Id;
-
-                string filePath = @"C:\Users\Devina\Documents\GitHub\LearnMath\Bakalauras\Bakalauras\wwwroot\savedImages_API\" + podsItems[i].Id.ToString() + ".jpg";
+                string fileName = podsItems[i].Id.ToString() + ".jpg";
+                string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "savedImages_API", fileName);
 
                 using (var client = new WebClient())
                 {
@@ -98,9 +108,20 @@ namespace Bakalauras.Pages.Uzdaviniai
             _Task.Answer3 = Request.Form["Ans3"];
             _Task.Answer4 = Request.Form["Ans4"];
 
-            //_Task.Explaining = Request.Form["expl"];
             _Task.Level = Request.Form["sunk"];
             _Task.Theme = Request.Form["tema"];
+
+            var user = await _userManager.GetUserAsync(User);
+            var isAdmin = await _userManager.IsInRoleAsync(user, SD.AdminUser);
+
+            if (isAdmin)
+            {
+                _Task.IsPublic = true;
+            }
+            else
+            {
+                _Task.IsPublic = false;
+            }
 
             await _db._Task.AddAsync(_Task);
             await _db.SaveChangesAsync();

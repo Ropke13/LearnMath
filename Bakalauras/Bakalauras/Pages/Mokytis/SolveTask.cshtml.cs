@@ -1,4 +1,4 @@
-using Bakalauras.Data;
+﻿using Bakalauras.Data;
 using Bakalauras.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +20,7 @@ namespace Bakalauras.Pages.Mokytis
         {
             _db = db;
         }
+
         [BindProperty]
         public int Index { get; set; }
 
@@ -39,65 +40,109 @@ namespace Bakalauras.Pages.Mokytis
         [BindProperty]
         public List<API_Pods> Api_Pods { get; set; }
 
-        public async Task<IActionResult> OnGet(Guid? id)
+        public async Task<IActionResult> OnGet(Guid? id, bool fromPublic = false)
         {
-            Test = await _db.Test.FindAsync(id);
-            Complete = await _db.TestComplete.Where(f => f.fk__Test == id && f.Finished == null).FirstOrDefaultAsync();
-
-            byte[] tasksData = HttpContext.Session.Get("tasksData");
-            Tasks = JsonSerializer.Deserialize<List<_Task>>(tasksData);
-
-            Index = (int)HttpContext.Session.GetInt32("index");
-
-            Api_Pods = await _db.API_Pods.Where(f => f.fk__Task == Tasks[Index].Id && f.IsActive).ToListAsync();
-
-            Answers = new List<string>()
+            if (!fromPublic)
             {
-                Tasks[Index].Answer1,
-                Tasks[Index].Answer2,
-                Tasks[Index].Answer3,
-                Tasks[Index].Answer4
-            };
+                Test = await _db.Test.FindAsync(id);
+                Complete = await _db.TestComplete.Where(f => f.fk__Test == id && f.Finished == null).FirstOrDefaultAsync();
 
-            ShuffleList(Answers);
+                byte[] tasksData = HttpContext.Session.Get("tasksData");
+                Tasks = JsonSerializer.Deserialize<List<_Task>>(tasksData);
+
+                Index = (int)HttpContext.Session.GetInt32("index");
+
+                Api_Pods = await _db.API_Pods.Where(f => f.fk__Task == Tasks[Index].Id && f.IsActive).ToListAsync();
+
+                Answers = new List<string>()
+                {
+                    Tasks[Index].Answer1,
+                    Tasks[Index].Answer2,
+                    Tasks[Index].Answer3,
+                    Tasks[Index].Answer4
+                };
+
+                ShuffleList(Answers);
+            }
+            else
+            {
+                byte[] tasksData = HttpContext.Session.Get("tasksData");
+                Tasks = JsonSerializer.Deserialize<List<_Task>>(tasksData);
+
+                Index = (int)HttpContext.Session.GetInt32("index");
+
+                Api_Pods = await _db.API_Pods.Where(f => f.fk__Task == Tasks[Index].Id && f.IsActive).ToListAsync();
+
+                Answers = new List<string>()
+                {
+                    Tasks[Index].Answer1,
+                    Tasks[Index].Answer2,
+                    Tasks[Index].Answer3,
+                    Tasks[Index].Answer4
+                };
+
+                ShuffleList(Answers);
+            }
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAnswer(Guid? id)
+        public async Task<IActionResult> OnPostAnswer(Guid? id, bool fromPublic = false)
         {
-            Complete = await _db.TestComplete.Where(f => f.fk__Test == id && f.Finished == null).FirstOrDefaultAsync();
-
-            int currentIndex = (int)HttpContext.Session.GetInt32("index");
-            HttpContext.Session.SetInt32("index", currentIndex + 1);
-
-            byte[] tasksData = HttpContext.Session.Get("tasksData");
-            Tasks = JsonSerializer.Deserialize<List<_Task>>(tasksData);
-
-            completedTask = new TestCompletedTask();
-
-            completedTask.Id = Guid.NewGuid();
-
-            string selectedAnswer = Request.Form["formRadios"];
-
-            completedTask.SelectedAnswer = selectedAnswer;
-
-            if (selectedAnswer == Tasks[currentIndex].Answer1)
+            if (!fromPublic)
             {
-                completedTask.IsAnsweredCorrectly = true;
+                Complete = await _db.TestComplete.Where(f => f.fk__Test == id && f.Finished == null).FirstOrDefaultAsync();
+
+                int currentIndex = (int)HttpContext.Session.GetInt32("index");
+                HttpContext.Session.SetInt32("index", currentIndex + 1);
+
+                byte[] tasksData = HttpContext.Session.Get("tasksData");
+                Tasks = JsonSerializer.Deserialize<List<_Task>>(tasksData);
+
+                completedTask = new TestCompletedTask();
+
+                completedTask.Id = Guid.NewGuid();
+
+                string selectedAnswer = Request.Form["formRadios"];
+
+                completedTask.SelectedAnswer = selectedAnswer;
+
+                if (selectedAnswer == Tasks[currentIndex].Answer1)
+                {
+                    completedTask.IsAnsweredCorrectly = true;
+                }
+                else
+                {
+                    completedTask.IsAnsweredCorrectly = false;
+                }
+
+                completedTask.TaskId = Tasks[currentIndex].Id;
+                completedTask.fk__TestComplete = Complete.Id;
+
+                await _db.TestCompletedTask.AddAsync(completedTask);
+                await _db.SaveChangesAsync();
+
+                return RedirectToPage("/Mokytis/SolveTask", new { id });
             }
             else
             {
-                completedTask.IsAnsweredCorrectly = false;
+                int currentIndex = (int)HttpContext.Session.GetInt32("index");
+                HttpContext.Session.SetInt32("index", currentIndex + 1);
+
+                byte[] tasksData = HttpContext.Session.Get("tasksData");
+                Tasks = JsonSerializer.Deserialize<List<_Task>>(tasksData);
+
+                string selectedAnswer = Request.Form["formRadios"];
+
+                if (selectedAnswer == Tasks[currentIndex].Answer1)
+                {
+                    return RedirectToPage("/General/GoodAnswer");
+                }
+                else
+                {
+                    return RedirectToPage("/General/BadAnswer", new { answer = Tasks[currentIndex].Answer1 });
+                }   
             }
-
-            completedTask.TaskId = Tasks[currentIndex].Id;
-            completedTask.fk__TestComplete = Complete.Id;
-
-            await _db.TestCompletedTask.AddAsync(completedTask);
-            await _db.SaveChangesAsync();
-
-            return RedirectToPage("/Mokytis/SolveTask", new { id });
         }
 
         public async Task<IActionResult> OnPostEndTest(Guid? id)

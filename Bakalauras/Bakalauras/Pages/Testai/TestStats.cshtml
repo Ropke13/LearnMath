@@ -18,6 +18,7 @@
                                     <th scope="col">Testa pradejo</th>
                                     <th scope="col">Testa pabaige</th>
                                     <th scope="col">Ivertis</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -40,6 +41,7 @@
                                         <td>@Html.DisplayFor(f => f.Completes[i].Finished)</td>
                                         @{double Grade = 10 / (double)@Model.Completes[i].TotalTasks * (double)totalCorrectAnswers;}
                                         <td>@Grade</td>
+                                        <td><a class="btn btn-success btn-lg te" style="margin-bottom: 5px;" asp-page="/Testai/MyTestResult" asp-route-ID="@Model.Completes[i].Id">Peržiureti atsakymus</a></td>
                                     </tr>
                                 }
                             </tbody>

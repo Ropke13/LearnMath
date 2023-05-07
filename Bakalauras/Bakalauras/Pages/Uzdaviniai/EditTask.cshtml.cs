@@ -1,9 +1,12 @@
+using Bakalauras.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 
 namespace Bakalauras.Pages.Uzdaviniai
 {
+    [Authorize(Roles = SD.TeachUser + ", " + SD.AdminUser)]
     public class EditTaskModel : PageModel
     {
         public IActionResult OnGet(string userId = null)

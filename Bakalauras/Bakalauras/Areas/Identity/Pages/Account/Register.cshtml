@@ -28,6 +28,13 @@
                 <span asp-validation-for="Input.Surname" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label for="role"><b>Paskyros Tipas:</b></label><br>
+                <select class="custom-select" style="width:200px;" name="role" id="role">
+                    <option value="Mokinys">Mokinys</option>
+                    <option value="Mokytojas">Mokytojas</option>
+                </select><br><br>
+            </div>
+            <div class="form-group">
                 <label>Slaptazodis</label>
                 <input asp-for="Input.Password" class="form-control" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>

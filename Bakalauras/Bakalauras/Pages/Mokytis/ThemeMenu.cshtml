@@ -22,45 +22,22 @@
         width: 120px;
     }
 </style>
-
-<div class="container">
-    <div class="row">
-        <div class="col-lg-9 mx-auto">
-            <h1>Title-Kvadratines lygtis</h1>
-
-            <div class="card">
-                <div class="container" style="margin-top: 15px;">
-                    <h2><i class="bi bi-1-circle-fill"></i> Išmok!</h2>
-                </div>
-                <hr />
-                <div class="container">
-                    <p class="text-quiz"><b>Pasimokyk kvadratines lygtis teoriskai! bus lengviau suprasti!</b></p>
-                    <a class="btn btn-primary btn-lg te" style="margin-bottom: 15px;">Mokytis</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="container" style="margin-top: 15px;">
-                    <h2><i class="bi bi-2-circle-fill"></i> Spresk!</h2>
-                </div>
-                <hr />
-                <div class="container">
-                    <p class="text-quiz"><b>Spręsti uždavinius su kvadratines išraiškos lygtimis.</b></p>
-                    <a class="btn btn-primary btn-lg te" style="margin-bottom: 15px;" asp-page="/Mokytis/SolveTask">Spresti </a>
+<form method="post">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mx-auto">
+                <h1>@Model.Title</h1>
+                <div class="card">
+                    <div class="container" style="margin-top: 15px;">
+                        <h2><i class="bi bi-1-circle-fill"></i> Spresk!</h2>
+                    </div>
+                    <hr />
+                    <div class="container">
+                        <p class="text-quiz"><b>@Model.Text</b></p>
+                        <button asp-route-Title="@Model.Title" asp-page-handler="Start" id="start" class="btn btn-info btn-lg te">Pradėti</button>
+                    </div>
                 </div>
             </div>
-
-            <div class="card">
-                <div class="container" style="margin-top: 15px;">
-                    <h2><i class="bi bi-3-circle-fill"></i> Pasikartok!</h2>
-                </div>
-                <hr />
-                <div class="container">
-                    <p class="text-quiz"><b>Spręsti uždavinius kuriuos suklydai mokydamasis!</b></p>
-                    <button type="button" class="btn btn-primary btn-lg te" style="margin-bottom: 15px;">Kartoti </button>
-                </div>
-            </div>
-            <partial name="~/Pages/General/HelpPartial.cshtml" />
         </div>
     </div>
-</div>
+</form>
