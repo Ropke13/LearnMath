@@ -42,7 +42,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand text-light" asp-area="" asp-page="/Index">Matematika-Lengviau</a>
+                <a class="navbar-brand text-light" asp-area="" asp-page="/Index">Matematika yra smagu</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -79,15 +79,15 @@
                             }
 
                             @*<li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-page="/CreateTask">Pasiekimai</a>
-                                </li>*@
-                            @if (await UserManager.IsInRoleAsync(user, SD.AdminUser) || await UserManager.IsInRoleAsync(user, SD.AdminUser))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-page="/CreateTask">Administravimas</a>
-                                </li>
-                            }
-
+                    <a class="nav-link text-light" asp-area="" asp-page="/CreateTask">Pasiekimai</a>
+                </li>
+            @if (await UserManager.IsInRoleAsync(user, SD.AdminUser) || await UserManager.IsInRoleAsync(user, SD.AdminUser))
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-area="" asp-page="/CreateTask">Administravimas</a>
+                </li>
+            }
+                            *@
                             @if (await UserManager.IsInRoleAsync(user, SD.AdminUser) || await UserManager.IsInRoleAsync(user, SD.UserUser))
                             {
                                 <li class="nav-item">
